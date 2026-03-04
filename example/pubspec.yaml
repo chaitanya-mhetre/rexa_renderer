@@ -1,0 +1,17 @@
+name: rexa_renderer_example
+description: Example app for the rexa_renderer Flutter SDK.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  rexa_renderer:
+    path: ..
+
+flutter:
+  uses-material-design: true

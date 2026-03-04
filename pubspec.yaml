@@ -1,0 +1,28 @@
+name: rexa_renderer
+description: >
+  Flutter SDK for REXA Server-Driven UI.
+  Fetches published layout JSON from the REXA backend and renders
+  Flutter widget trees dynamically — no app update required.
+version: 0.1.0
+homepage: https://github.com/your-org/rexa
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.0
+  shared_preferences: ^2.2.2
+  cached_network_image: ^3.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  mockito: ^5.4.4
+  build_runner: ^2.4.8
+
+flutter:
+  # No platform-specific assets needed for the SDK itself
