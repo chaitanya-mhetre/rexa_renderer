@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:rexa_renderer/rexa_renderer.dart';
+import 'package:sdui_renderer/sdui_renderer.dart';
 
 void main() {
-  runApp(const RexaExampleApp());
+  runApp(const SduiExampleApp());
 }
 
-class RexaExampleApp extends StatelessWidget {
-  const RexaExampleApp({super.key});
+class SduiExampleApp extends StatelessWidget {
+  const SduiExampleApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class AppRoot extends StatefulWidget {
 }
 
 class _AppRootState extends State<AppRoot> {
-  late final RexaLayoutFetcher _fetcher;
+  late final SduiLayoutFetcher _fetcher;
 
   /// Create a custom registry and add your own widgets alongside built-ins
   late final WidgetRegistry _registry;
@@ -39,9 +39,9 @@ class _AppRootState extends State<AppRoot> {
   void initState() {
     super.initState();
 
-    _fetcher = RexaLayoutFetcher(
+    _fetcher = SduiLayoutFetcher(
       // Replace with your REXA backend URL
-      baseUrl: 'https://your-rexa-instance.com',
+      baseUrl: 'https://your-sdui-instance.com',
       // Replace with your project's API key (found in Project Settings)
       apiKey: 'rxa_your_project_api_key',
       cacheTTL: const Duration(minutes: 5),
@@ -62,16 +62,16 @@ class _AppRootState extends State<AppRoot> {
 
   @override
   Widget build(BuildContext context) {
-    /// [RexaScreen] is a drop-in replacement for a normal Screen widget.
+    /// [SduiScreen] is a drop-in replacement for a normal Screen widget.
     /// It fetches the server-driven layout and renders it — no rebuilds needed.
-    return RexaScreen(
+    return SduiScreen(
       fetcher: _fetcher,
       screenName: 'home', // matches screen slug in the REXA builder
 
       // Optional: supply light/dark tokens
       tokens: MediaQuery.platformBrightnessOf(context) == Brightness.dark
-          ? RexaTokens.defaultDark()
-          : RexaTokens.defaultLight(),
+          ? SduiTokens.defaultDark()
+          : SduiTokens.defaultLight(),
 
       registry: _registry,
 
@@ -97,14 +97,14 @@ class _AppRootState extends State<AppRoot> {
   }
 }
 
-// ── Demo: render a hardcoded RexaNode without network ─────────────────────
+// ── Demo: render a hardcoded SduiNode without network ─────────────────────
 
-class RexaLocalDemo extends StatelessWidget {
-  const RexaLocalDemo({super.key});
+class SduiLocalDemo extends StatelessWidget {
+  const SduiLocalDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final node = RexaNode.fromJson({
+    final node = SduiNode.fromJson({
       "type": "scaffold",
       "appBar": {
         "type": "app_bar",
@@ -153,7 +153,7 @@ class RexaLocalDemo extends StatelessWidget {
             {"type": "divider"},
             {
               "type": "image_network",
-              "src": "https://picsum.photos/seed/rexa/400/200",
+              "src": "https://picsum.photos/seed/sdui/400/200",
               "height": 200,
               "style": {"borderRadius": 12},
               "fit": "cover"
@@ -163,6 +163,6 @@ class RexaLocalDemo extends StatelessWidget {
       }
     });
 
-    return RexaRenderer(node: node);
+    return SduiRenderer(node: node);
   }
 }

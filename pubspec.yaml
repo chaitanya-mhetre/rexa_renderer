@@ -1,10 +1,10 @@
-name: rexa_renderer
+name: sdui_renderer
 description: >
   Flutter SDK for REXA Server-Driven UI.
   Fetches published layout JSON from the REXA backend and renders
   Flutter widget trees dynamically — no app update required.
 version: 0.1.0
-homepage: https://github.com/your-org/rexa
+homepage: https://github.com/your-org/sdui
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

@@ -51,7 +51,7 @@
     },
     {
       "name": "build_runner",
-      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/build_runner-2.12.1",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/build_runner-2.12.2",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -87,7 +87,7 @@
     },
     {
       "name": "characters",
-      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/characters-1.4.0",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/characters-1.4.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -102,6 +102,12 @@
       "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/clock-1.1.2",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "code_assets",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/code_assets-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
     },
     {
       "name": "code_builder",
@@ -129,9 +135,9 @@
     },
     {
       "name": "dart_style",
-      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/dart_style-3.1.5",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/dart_style-3.1.7",
       "packageUri": "lib/",
-      "languageVersion": "3.9"
+      "languageVersion": "3.10"
     },
     {
       "name": "fake_async",
@@ -159,9 +165,9 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///home/chaitanya/develop/flutter/packages/flutter",
+      "rootUri": "file:///home/chaitanya/flutter/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "3.8"
+      "languageVersion": "3.9"
     },
     {
       "name": "flutter_cache_manager",
@@ -177,15 +183,15 @@
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///home/chaitanya/develop/flutter/packages/flutter_test",
+      "rootUri": "file:///home/chaitanya/flutter/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "3.8"
+      "languageVersion": "3.9"
     },
     {
       "name": "flutter_web_plugins",
-      "rootUri": "file:///home/chaitanya/develop/flutter/packages/flutter_web_plugins",
+      "rootUri": "file:///home/chaitanya/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
-      "languageVersion": "3.8"
+      "languageVersion": "3.9"
     },
     {
       "name": "glob",
@@ -198,6 +204,12 @@
       "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/graphs-2.3.2",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "hooks",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/hooks-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.10"
     },
     {
       "name": "http",
@@ -261,21 +273,21 @@
     },
     {
       "name": "matcher",
-      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/matcher-0.12.17",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/matcher-0.12.19",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.7"
     },
     {
       "name": "material_color_utilities",
-      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/material_color_utilities-0.11.1",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/material_color_utilities-0.13.0",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.5"
     },
     {
       "name": "meta",
-      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/meta-1.16.0",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/meta-1.17.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.5"
     },
     {
       "name": "mime",
@@ -288,6 +300,18 @@
       "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/mockito-5.6.3",
       "packageUri": "lib/",
       "languageVersion": "3.7"
+    },
+    {
+      "name": "native_toolchain_c",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/native_toolchain_c-0.17.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.10"
+    },
+    {
+      "name": "objective_c",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/objective_c-9.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.10"
     },
     {
       "name": "octo_image",
@@ -321,9 +345,9 @@
     },
     {
       "name": "path_provider_foundation",
-      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/path_provider_foundation-2.5.1",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/path_provider_foundation-2.6.0",
       "packageUri": "lib/",
-      "languageVersion": "3.9"
+      "languageVersion": "3.10"
     },
     {
       "name": "path_provider_linux",
@@ -435,9 +459,9 @@
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///home/chaitanya/develop/flutter/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///home/chaitanya/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
-      "languageVersion": "3.8"
+      "languageVersion": "3.9"
     },
     {
       "name": "source_gen",
@@ -459,9 +483,9 @@
     },
     {
       "name": "sqflite_android",
-      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/sqflite_android-2.4.2+2",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/sqflite_android-2.4.2+3",
       "packageUri": "lib/",
-      "languageVersion": "3.9"
+      "languageVersion": "3.10"
     },
     {
       "name": "sqflite_common",
@@ -519,9 +543,9 @@
     },
     {
       "name": "test_api",
-      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/test_api-0.7.6",
+      "rootUri": "file:///home/chaitanya/.pub-cache/hosted/pub.dev/test_api-0.7.10",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.7"
     },
     {
       "name": "typed_data",
@@ -584,15 +608,15 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "rexa_renderer",
+      "name": "sdui_renderer",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.9.2",
-  "flutterRoot": "file:///home/chaitanya/develop/flutter",
-  "flutterVersion": "3.35.6",
+  "generatorVersion": "3.11.1",
+  "flutterRoot": "file:///home/chaitanya/flutter",
+  "flutterVersion": "3.41.4",
   "pubCache": "file:///home/chaitanya/.pub-cache"
 }

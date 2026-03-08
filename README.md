@@ -1,4 +1,4 @@
-# rexa_renderer
+# sdui_renderer
 
 Flutter SDK for **REXA** — the Server-Driven UI platform.
 
@@ -9,12 +9,12 @@ The SDK fetches published layout JSON from the REXA backend, parses it, and buil
 
 ## Features
 
-- **Zero-config drop-in**: replace any screen with `RexaScreen(screenName: 'home')`
+- **Zero-config drop-in**: replace any screen with `SduiScreen(screenName: 'home')`
 - **ETag-aware caching** — uses `If-None-Match` for conditional GETs; falls back to stale cache on network failure
 - **30+ built-in widgets** — scaffold, app_bar, column, row, text, image, button, card, list_view, list_tile, divider, and more
 - **Extensible registry** — register your own custom widgets in 1 line
 - **Theme tokens** — light/dark design tokens with auto text-style resolution
-- **Validated parser** — enforces max depth (20) and max nodes (500) with `RexaParseException`
+- **Validated parser** — enforces max depth (20) and max nodes (500) with `SduiParseException`
 
 ---
 
@@ -23,17 +23,17 @@ The SDK fetches published layout JSON from the REXA backend, parses it, and buil
 ```yaml
 # pubspec.yaml
 dependencies:
-  rexa_renderer:
+  sdui_renderer:
     git:
-      url: https://github.com/your-org/rexa
-      path: flutter_sdk/rexa_renderer
+      url: https://github.com/your-org/sdui
+      path: flutter_sdk/sdui_renderer
 ```
 
 Or once published to pub.dev:
 
 ```yaml
 dependencies:
-  rexa_renderer: ^0.1.0
+  sdui_renderer: ^0.1.0
 ```
 
 ---
@@ -41,19 +41,19 @@ dependencies:
 ## Quick Start
 
 ```dart
-import 'package:rexa_renderer/rexa_renderer.dart';
+import 'package:sdui_renderer/sdui_renderer.dart';
 
 // 1. Create a fetcher (do this once, e.g. in a provider/service)
-final fetcher = RexaLayoutFetcher(
-  baseUrl: 'https://your-rexa-instance.com',
+final fetcher = SduiLayoutFetcher(
+  baseUrl: 'https://your-sdui-instance.com',
   apiKey: 'rxa_your_project_api_key',  // from REXA Project Settings
 );
 
-// 2. Replace any screen with RexaScreen
+// 2. Replace any screen with SduiScreen
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RexaScreen(
+    return SduiScreen(
       fetcher: fetcher,
       screenName: 'home',   // matches the screen slug in the REXA builder
     );
@@ -65,10 +65,10 @@ class HomeScreen extends StatelessWidget {
 
 ## API Reference
 
-### `RexaLayoutFetcher`
+### `SduiLayoutFetcher`
 
 ```dart
-RexaLayoutFetcher({
+SduiLayoutFetcher({
   required String baseUrl,  // your REXA backend URL
   required String apiKey,   // project API key
   Duration cacheTTL = const Duration(minutes: 5),
@@ -85,15 +85,15 @@ RexaLayoutFetcher({
 
 ---
 
-### `RexaScreen`
+### `SduiScreen`
 
 Drop-in screen widget that fetches and renders automatically.
 
 ```dart
-RexaScreen(
+SduiScreen(
   fetcher: fetcher,
   screenName: 'cart',
-  tokens: RexaTokens.defaultDark(),       // optional: theme tokens
+  tokens: SduiTokens.defaultDark(),       // optional: theme tokens
   registry: myCustomRegistry,              // optional: custom widget registry
   loadingWidget: MyLoadingSpinner(),       // optional
   errorBuilder: (err) => ErrorPage(err),  // optional
@@ -102,13 +102,13 @@ RexaScreen(
 
 ---
 
-### `RexaRenderer`
+### `SduiRenderer`
 
-Render a pre-parsed `RexaNode` directly (no network fetch).
+Render a pre-parsed `SduiNode` directly (no network fetch).
 
 ```dart
-final node = RexaParser.parseString(jsonString);
-RexaRenderer(node: node)
+final node = SduiParser.parseString(jsonString);
+SduiRenderer(node: node)
 ```
 
 ---
@@ -126,7 +126,7 @@ registry.register('promo_banner', (context, node, registry) {
   );
 });
 
-RexaScreen(fetcher: fetcher, screenName: 'home', registry: registry)
+SduiScreen(fetcher: fetcher, screenName: 'home', registry: registry)
 ```
 
 ---
@@ -135,20 +135,20 @@ RexaScreen(fetcher: fetcher, screenName: 'home', registry: registry)
 
 ```dart
 // Light theme (default)
-final tokens = RexaTokens.defaultLight();
+final tokens = SduiTokens.defaultLight();
 
 // Dark theme
-final tokens = RexaTokens.defaultDark();
+final tokens = SduiTokens.defaultDark();
 
 // Custom tokens
-final tokens = RexaTokens(
+final tokens = SduiTokens(
   primaryColor: Color(0xFF6366F1),
   onPrimary: Colors.white,
   scaffoldBackground: Colors.white,
   // ... other tokens
 );
 
-RexaScreen(fetcher: fetcher, screenName: 'home', tokens: tokens)
+SduiScreen(fetcher: fetcher, screenName: 'home', tokens: tokens)
 ```
 
 ---
@@ -240,17 +240,17 @@ flutter test
 ## Architecture
 
 ```
-rexa_renderer/
+sdui_renderer/
 ├── lib/
-│   ├── rexa_renderer.dart        # Public exports
+│   ├── sdui_renderer.dart        # Public exports
 │   └── src/
-│       ├── models/               # RexaNode, RexaLayoutResponse
-│       ├── fetcher/              # RexaLayoutFetcher (HTTP + cache)
-│       ├── parser/               # RexaParser (validation + parsing)
+│       ├── models/               # SduiNode, SduiLayoutResponse
+│       ├── fetcher/              # SduiLayoutFetcher (HTTP + cache)
+│       ├── parser/               # SduiParser (validation + parsing)
 │       ├── registry/             # WidgetRegistry (type → builder map)
 │       ├── widgets/              # All built-in widget implementations
-│       ├── theme/                # RexaTheme, RexaTokens
-│       └── rexa_screen.dart      # RexaScreen, RexaRenderer
+│       ├── theme/                # SduiTheme, SduiTokens
+│       └── sdui_screen.dart      # SduiScreen, SduiRenderer
 └── test/
-    └── rexa_parser_test.dart
+    └── sdui_parser_test.dart
 ```

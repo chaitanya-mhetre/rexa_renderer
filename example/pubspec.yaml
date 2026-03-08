@@ -1,5 +1,5 @@
-name: rexa_renderer_example
-description: Example app for the rexa_renderer Flutter SDK.
+name: sdui_renderer_example
+description: Example app for the sdui_renderer Flutter SDK.
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  rexa_renderer:
+  sdui_renderer:
     path: ..
 
 flutter:

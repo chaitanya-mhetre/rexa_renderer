@@ -1,19 +1,19 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/rexa_layout.dart';
+import '../models/sdui_layout.dart';
 
 /// Fetches REXA screen layouts from the backend and caches them locally.
 ///
 /// Usage:
 /// ```dart
-/// final fetcher = RexaLayoutFetcher(
-///   baseUrl: 'https://your-rexa-instance.com',
+/// final fetcher = SduiLayoutFetcher(
+///   baseUrl: 'https://your-sdui-instance.com',
 ///   apiKey: 'rxa_your_project_key',
 /// );
 /// final result = await fetcher.fetchScreen('home');
 /// ```
-class RexaLayoutFetcher {
+class SduiLayoutFetcher {
   final String baseUrl;
   final String apiKey;
 
@@ -25,7 +25,7 @@ class RexaLayoutFetcher {
 
   final http.Client _client;
 
-  RexaLayoutFetcher({
+  SduiLayoutFetcher({
     required this.baseUrl,
     required this.apiKey,
     this.cacheTTL = const Duration(minutes: 5),
@@ -33,9 +33,9 @@ class RexaLayoutFetcher {
     http.Client? client,
   }) : _client = client ?? http.Client();
 
-  String _cacheKey(String screenName) => 'rexa_layout_$screenName';
-  String _etagKey(String screenName) => 'rexa_etag_$screenName';
-  String _timestampKey(String screenName) => 'rexa_ts_$screenName';
+  String _cacheKey(String screenName) => 'sdui_layout_$screenName';
+  String _etagKey(String screenName) => 'sdui_etag_$screenName';
+  String _timestampKey(String screenName) => 'sdui_ts_$screenName';
 
   /// Fetch the layout for [screenName].
   ///
@@ -47,7 +47,7 @@ class RexaLayoutFetcher {
   /// 5. On network error, return stale cache if available.
   ///
   /// [forceRefresh] - If true, bypasses cache and always fetches from server.
-  Future<RexaLayoutResponse> fetchScreen(String screenName, {bool forceRefresh = false}) async {
+  Future<SduiLayoutResponse> fetchScreen(String screenName, {bool forceRefresh = false}) async {
     final prefs = await SharedPreferences.getInstance();
     final cachedJson = prefs.getString(_cacheKey(screenName));
     final cachedEtag = prefs.getString(_etagKey(screenName));
@@ -95,12 +95,12 @@ class RexaLayoutFetcher {
         }
 
         final json = jsonDecode(body) as Map<String, dynamic>;
-        return RexaLayoutResponse.fromJson(json);
+        return SduiLayoutResponse.fromJson(json);
       }
 
       // Non-200/304 — parse error response
       final json = jsonDecode(response.body) as Map<String, dynamic>;
-      return RexaLayoutResponse(
+      return SduiLayoutResponse(
         success: false,
         error: json['error'] as String? ?? 'HTTP ${response.statusCode}',
       );
@@ -109,7 +109,7 @@ class RexaLayoutFetcher {
       if (staleWhileRevalidate && cachedJson != null) {
         return _parseCache(cachedJson);
       }
-      return RexaLayoutResponse(
+      return SduiLayoutResponse(
         success: false,
         error: 'Network error: ${e.toString()}',
       );
@@ -127,18 +127,18 @@ class RexaLayoutFetcher {
   /// Clear all cached screens.
   Future<void> clearAllCaches() async {
     final prefs = await SharedPreferences.getInstance();
-    final keys = prefs.getKeys().where((k) => k.startsWith('rexa_')).toList();
+    final keys = prefs.getKeys().where((k) => k.startsWith('sdui_')).toList();
     for (final k in keys) {
       await prefs.remove(k);
     }
   }
 
-  RexaLayoutResponse _parseCache(String raw) {
+  SduiLayoutResponse _parseCache(String raw) {
     try {
       final json = jsonDecode(raw) as Map<String, dynamic>;
-      return RexaLayoutResponse.fromJson(json);
+      return SduiLayoutResponse.fromJson(json);
     } catch (_) {
-      return const RexaLayoutResponse(
+      return const SduiLayoutResponse(
         success: false,
         error: 'Failed to parse cached layout',
       );
