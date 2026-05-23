@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../sdui_screen.dart';
 import '../sdui_action.dart';
 
 FutureOr<dynamic> navigateHandler(BuildContext ctx, SduiAction action) {
@@ -8,7 +9,7 @@ FutureOr<dynamic> navigateHandler(BuildContext ctx, SduiAction action) {
   final args = action.props['arguments'];
   final result = action.props['result'];
 
-  Widget destination() => _PlaceholderRouteWidget(routeName: routeName);
+  Widget destination() => SduiScreen(routeName: routeName!);
 
   switch (style) {
     case 'push':
@@ -36,14 +37,4 @@ FutureOr<dynamic> navigateHandler(BuildContext ctx, SduiAction action) {
       debugPrint('navigateHandler: unknown navigationStyle "$style"');
       return null;
   }
-}
-
-class _PlaceholderRouteWidget extends StatelessWidget {
-  final String? routeName;
-  const _PlaceholderRouteWidget({this.routeName});
-  @override
-  Widget build(BuildContext ctx) => Scaffold(
-        appBar: AppBar(title: Text(routeName ?? 'SDUI Route')),
-        body: const Center(child: Text('Loading…')),
-      );
 }
