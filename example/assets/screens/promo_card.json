@@ -1,0 +1,23 @@
+{
+  "layout": {
+    "type": "row",
+    "mainAxisAlignment": "spaceBetween",
+    "children": [
+      {
+        "type": "padding",
+        "padding": 12,
+        "child": {
+          "type": "text",
+          "data": "Limited offer",
+          "style": { "fontSize": 16, "fontWeight": "w600" }
+        }
+      },
+      {
+        "type": "elevated_button",
+        "child": { "type": "text", "data": "Add to cart" },
+        "onPressed": { "actionType": "addToCart", "productId": "p42" }
+      }
+    ]
+  },
+  "version": 1
+}

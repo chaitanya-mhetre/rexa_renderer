@@ -1,17 +1,25 @@
 name: sdui_renderer_example
-description: Example app for the sdui_renderer Flutter SDK.
+description: Demo app showing sdui_renderer's full capabilities — embedded
+  sections, full-screen routes, custom actions, and form submission.
 publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.10.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
 
 dependencies:
   flutter:
     sdk: flutter
   sdui_renderer:
-    path: ..
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/screens/

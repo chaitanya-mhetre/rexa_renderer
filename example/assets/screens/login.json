@@ -1,0 +1,62 @@
+{
+  "layout": {
+    "type": "form",
+    "child": {
+      "type": "single_child_scroll_view",
+      "child": {
+        "type": "padding",
+        "padding": 24,
+        "child": {
+          "type": "column",
+          "children": [
+            {
+              "type": "text",
+              "data": "Sign in",
+              "style": { "fontSize": 28, "fontWeight": "bold" }
+            },
+            { "type": "sized_box", "height": 24 },
+            {
+              "type": "textformfield",
+              "id": "email",
+              "label": "Email",
+              "keyboardType": "emailAddress",
+              "validatorRules": [
+                { "type": "required", "errorMessage": "Email required" },
+                { "type": "email", "errorMessage": "Invalid email" }
+              ]
+            },
+            { "type": "sized_box", "height": 16 },
+            {
+              "type": "textformfield",
+              "id": "password",
+              "label": "Password",
+              "obscureText": true,
+              "validatorRules": [
+                { "type": "required", "errorMessage": "Password required" },
+                { "type": "minLength", "value": 6, "errorMessage": "At least 6 characters" }
+              ]
+            },
+            { "type": "sized_box", "height": 24 },
+            {
+              "type": "elevated_button",
+              "fullWidth": true,
+              "child": { "type": "text", "data": "Sign in" },
+              "onPressed": {
+                "actionType": "validateForm",
+                "isValid": {
+                  "actionType": "snackBar",
+                  "label": "Validation passed — would call /login"
+                },
+                "isNotValid": {
+                  "actionType": "snackBar",
+                  "label": "Please fix the errors above"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "version": 1
+}

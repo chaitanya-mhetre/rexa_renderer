@@ -1,0 +1,25 @@
+{
+  "layout": {
+    "type": "container",
+    "padding": 16,
+    "color": "#6750A4",
+    "style": { "borderRadius": 12 },
+    "child": {
+      "type": "column",
+      "children": [
+        {
+          "type": "text",
+          "data": "Welcome back, {{user.name}}!",
+          "style": { "fontSize": 22, "fontWeight": "bold", "color": "#FFFFFF" }
+        },
+        { "type": "sized_box", "height": 6 },
+        {
+          "type": "text",
+          "data": "Cart has {{cart.itemCount}} items",
+          "style": { "fontSize": 14, "color": "#FFFFFF" }
+        }
+      ]
+    }
+  },
+  "version": 1
+}
