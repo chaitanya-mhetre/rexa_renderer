@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../models/sdui_layout.dart';
 import '../theme/sdui_theme.dart';
 import '../registry/widget_registry.dart';
+import '../form/sdui_form_state.dart';
 
 // ═══════════════════════════════════════════════════════════════════════════
 //  Helper
@@ -861,6 +862,118 @@ class SduiGestureDetectorWidget extends StatelessWidget {
     return GestureDetector(
       onTap: _handleTap,
       child: node.child != null ? registry.build(context, node.child!) : const SizedBox.shrink(),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  form
+// ═══════════════════════════════════════════════════════════════════════════
+
+/// Renders a form scope wrapping either a single `child` node or a list of
+/// `children` nodes (falling back to a [Column]).
+class SduiFormWrapperWidget extends StatelessWidget {
+  final SduiNode node;
+  final WidgetRegistry registry;
+
+  const SduiFormWrapperWidget({super.key, required this.node, required this.registry});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget inner;
+    if (node.child != null) {
+      inner = registry.build(context, node.child!);
+    } else if (node.children.isNotEmpty) {
+      inner = node.children.length == 1
+          ? registry.build(context, node.children.first)
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              children: node.children.map((c) => registry.build(context, c)).toList(),
+            );
+    } else {
+      inner = const SizedBox.shrink();
+    }
+    return SduiFormWidget(child: inner);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  textFormField
+// ═══════════════════════════════════════════════════════════════════════════
+
+/// A single text input that auto-registers itself with the nearest
+/// [SduiFormScope], reports value changes via [SduiFormState.setValue], and
+/// displays the current validation error from [SduiFormState.errors].
+class SduiTextFormFieldWidget extends StatefulWidget {
+  final SduiNode node;
+
+  const SduiTextFormFieldWidget({super.key, required this.node});
+
+  @override
+  State<SduiTextFormFieldWidget> createState() => _SduiTextFormFieldWidgetState();
+}
+
+class _SduiTextFormFieldWidgetState extends State<SduiTextFormFieldWidget> {
+  late final TextEditingController _ctrl;
+  String? _fieldId;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = TextEditingController();
+    _fieldId = widget.node.prop('id') as String?;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Register field with the parent form scope, if any.
+    final id = _fieldId;
+    if (id != null) {
+      final form = SduiFormScope.of(context);
+      if (form != null) {
+        final rawRules = widget.node.prop('validatorRules');
+        final rules = rawRules is List ? rawRules : <dynamic>[];
+        form.registerField(id, buildValidators(rules));
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    final id = _fieldId;
+    if (id != null) {
+      // Use maybeOf since context may be invalid at this point.
+      final form = SduiFormScope.maybeOf(context);
+      form?.unregisterField(id);
+    }
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final id = _fieldId;
+    final form = id != null ? SduiFormScope.of(context) : null;
+    final errorText = form?.errors[id];
+
+    final hint = widget.node.prop('hintText') as String?
+        ?? widget.node.prop('hint') as String?;
+    final label = widget.node.prop('label') as String?
+        ?? widget.node.prop('labelText') as String?;
+    final obscure = widget.node.prop('obscureText') == true;
+
+    return TextField(
+      controller: _ctrl,
+      obscureText: obscure,
+      onChanged: (v) {
+        if (id != null) form?.setValue(id, v);
+      },
+      decoration: InputDecoration(
+        hintText: hint,
+        labelText: label,
+        errorText: errorText,
+      ),
     );
   }
 }

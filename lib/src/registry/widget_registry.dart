@@ -105,6 +105,11 @@ class WidgetRegistry {
     register('wrap', (c, n, r) => SduiWrapWidget(node: n, registry: r));
     register('gesture_detector', (c, n, r) => SduiGestureDetectorWidget(node: n, registry: r));
     register('gesturedetector', (c, n, r) => SduiGestureDetectorWidget(node: n, registry: r));
+
+    // ── Form ─────────────────────────────────────────────────────────────
+    register('form', (c, n, r) => SduiFormWrapperWidget(node: n, registry: r));
+    register('textformfield', (c, n, r) => SduiTextFormFieldWidget(node: n));
+    register('text_form_field', (c, n, r) => SduiTextFormFieldWidget(node: n));
   }
 
   /// Register (or override) a widget builder for [type].

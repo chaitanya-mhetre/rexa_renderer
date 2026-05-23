@@ -13,6 +13,8 @@ import 'actions/handlers/multi_action_handler.dart';
 import 'actions/handlers/delay_handler.dart';
 import 'actions/handlers/none_handler.dart';
 import 'actions/handlers/network_request_handler.dart';
+import 'actions/handlers/get_form_value_handler.dart';
+import 'actions/handlers/validate_form_handler.dart';
 import 'cache/sdui_cache_service.dart';
 import 'cache/sdui_cache_strategy.dart';
 import 'context/sdui_context_store.dart';
@@ -55,6 +57,8 @@ class Sdui {
     _registry.register('delay', delayHandler);
     _registry.register('none', noneHandler);
     _registry.register('networkRequest', makeNetworkRequestHandler(_registry));
+    _registry.register('getFormValue', getFormValueHandler);
+    _registry.register('validateForm', makeValidateFormHandler(_registry));
 
     if (onAnyAction != null) _registry.onAnyAction(onAnyAction);
     _initialized = true;
