@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:lottie/lottie.dart';
 import '../models/sdui_layout.dart';
 import '../theme/sdui_theme.dart';
 import '../registry/widget_registry.dart';
@@ -1539,6 +1540,60 @@ class _SduiCarouselWidgetState extends State<SduiCarouselWidget> {
             ),
           ),
       ]),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  CT-H: lottie
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiLottieWidget extends StatelessWidget {
+  final SduiNode node;
+  const SduiLottieWidget({super.key, required this.node});
+
+  String? get _src =>
+      node.prop('src') as String? ?? node.prop('url') as String?;
+  double get _width => _parseDouble(node.prop('width')) ?? 240;
+  double get _height => _parseDouble(node.prop('height')) ?? 240;
+  bool get _autoplay => node.prop('autoPlay') != false;
+  bool get _loop => node.prop('loop') != false;
+
+  @override
+  Widget build(BuildContext context) {
+    final src = _src;
+    if (src == null || src.isEmpty) {
+      return SizedBox(
+        width: _width,
+        height: _height,
+        child: Container(
+          color: Colors.grey.shade100,
+          child: const Center(
+            child: Text(
+              'No src',
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+          ),
+        ),
+      );
+    }
+    return SizedBox(
+      width: _width,
+      height: _height,
+      child: Lottie.network(
+        src,
+        repeat: _loop,
+        animate: _autoplay,
+        errorBuilder: (ctx, err, stack) => Container(
+          color: Colors.red.shade50,
+          child: Center(
+            child: Text(
+              'Lottie error',
+              style: TextStyle(fontSize: 11, color: Colors.red.shade700),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -156,6 +156,10 @@ class WidgetRegistry {
     // ── Carousel ──────────────────────────────────────────────────────────
     register('carousel', (c, n, r) => SduiCarouselWidget(node: n, registry: r));
     register('Carousel', (c, n, r) => SduiCarouselWidget(node: n, registry: r));
+
+    // ── Lottie (CT-H) ─────────────────────────────────────────────────────
+    register('lottie', (_, n, __) => SduiLottieWidget(node: n));
+    register('Lottie', (_, n, __) => SduiLottieWidget(node: n));
   }
 
   /// Register (or override) a widget builder for [type].
