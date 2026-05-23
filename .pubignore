@@ -1,0 +1,11 @@
+.dart_tool/
+build/
+**/build/
+.idea/
+.vscode/
+test/
+example/
+*.iml
+.git/
+.github/
+**/example/.dart_tool/

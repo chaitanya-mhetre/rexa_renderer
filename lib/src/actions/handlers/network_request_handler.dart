@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/foundation.dart';
 import '../sdui_action.dart';
 import '../sdui_action_registry.dart';
 import '../../network/sdui_network_service.dart';
