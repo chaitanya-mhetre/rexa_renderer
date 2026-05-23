@@ -152,6 +152,10 @@ class WidgetRegistry {
     register('form', (c, n, r) => SduiFormWrapperWidget(node: n, registry: r));
     register('textformfield', (c, n, r) => SduiTextFormFieldWidget(node: n));
     register('text_form_field', (c, n, r) => SduiTextFormFieldWidget(node: n));
+
+    // ── Carousel ──────────────────────────────────────────────────────────
+    register('carousel', (c, n, r) => SduiCarouselWidget(node: n, registry: r));
+    register('Carousel', (c, n, r) => SduiCarouselWidget(node: n, registry: r));
   }
 
   /// Register (or override) a widget builder for [type].

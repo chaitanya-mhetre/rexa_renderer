@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/sdui_layout.dart';
@@ -1431,6 +1432,113 @@ class SduiTooltipWidget extends StatelessWidget {
     return Tooltip(
       message: message,
       child: node.child != null ? registry.build(context, node.child!) : const SizedBox.shrink(),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  carousel
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiCarouselWidget extends StatefulWidget {
+  final SduiNode node;
+  final WidgetRegistry registry;
+  const SduiCarouselWidget({super.key, required this.node, required this.registry});
+
+  @override
+  State<SduiCarouselWidget> createState() => _SduiCarouselWidgetState();
+}
+
+class _SduiCarouselWidgetState extends State<SduiCarouselWidget> {
+  late PageController _controller;
+  int _active = 0;
+  Timer? _autoplayTimer;
+
+  String get _variant => (widget.node.prop('variant') as String?) ?? 'basic';
+  double get _height => _parseDouble(widget.node.prop('height')) ?? 200;
+  bool get _autoplay => widget.node.prop('autoPlay') == true;
+  int get _interval => widget.node.prop('interval') is num
+      ? (widget.node.prop('interval') as num).toInt()
+      : 3000;
+  bool get _loop => widget.node.prop('loop') != false;
+  bool get _showDots => widget.node.prop('showDots') != false;
+  int get _itemCount => widget.node.children.length;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController(
+      viewportFraction: _variant == 'snap' ? 0.85 : 1.0,
+    );
+    if (_autoplay) _startAutoplay();
+  }
+
+  void _startAutoplay() {
+    _autoplayTimer?.cancel();
+    _autoplayTimer = Timer.periodic(Duration(milliseconds: _interval), (_) {
+      if (!mounted || _itemCount <= 1) return;
+      final next = _active + 1;
+      if (next >= _itemCount) {
+        if (_loop) {
+          _controller.animateToPage(0,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut);
+        }
+      } else {
+        _controller.animateToPage(next,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeInOut);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _autoplayTimer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_itemCount == 0) return SizedBox(height: _height);
+    return SizedBox(
+      height: _height,
+      child: Stack(children: [
+        PageView.builder(
+          controller: _controller,
+          onPageChanged: (i) => setState(() => _active = i),
+          itemCount: _itemCount,
+          itemBuilder: (ctx, i) {
+            final child = widget.node.children[i];
+            final rendered = widget.registry.build(ctx, child);
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: rendered,
+            );
+          },
+        ),
+        if (_showDots && _itemCount > 1)
+          Positioned(
+            bottom: 8,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(_itemCount, (i) => Container(
+                width: i == _active ? 16 : 8,
+                height: 8,
+                margin: const EdgeInsets.symmetric(horizontal: 3),
+                decoration: BoxDecoration(
+                  color: i == _active
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              )),
+            ),
+          ),
+      ]),
     );
   }
 }
