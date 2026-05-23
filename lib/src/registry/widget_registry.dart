@@ -100,11 +100,53 @@ class WidgetRegistry {
     // ── Safety / Layout extras ───────────────────────────────────────────
     register('safe_area', (c, n, r) => SduiSafeAreaWidget(node: n, registry: r));
     register('safearea', (c, n, r) => SduiSafeAreaWidget(node: n, registry: r));
+    register('SafeArea', (c, n, r) => SduiSafeAreaWidget(node: n, registry: r));
     register('stack', (c, n, r) => SduiStackWidget(node: n, registry: r));
+    register('Stack', (c, n, r) => SduiStackWidget(node: n, registry: r));
     register('flexible', (c, n, r) => SduiFlexibleWidget(node: n, registry: r));
+    register('Flexible', (c, n, r) => SduiFlexibleWidget(node: n, registry: r));
     register('wrap', (c, n, r) => SduiWrapWidget(node: n, registry: r));
+    register('Wrap', (c, n, r) => SduiWrapWidget(node: n, registry: r));
     register('gesture_detector', (c, n, r) => SduiGestureDetectorWidget(node: n, registry: r));
     register('gesturedetector', (c, n, r) => SduiGestureDetectorWidget(node: n, registry: r));
+    register('GestureDetector', (c, n, r) => SduiGestureDetectorWidget(node: n, registry: r));
+
+    // ── Positioned ───────────────────────────────────────────────────────
+    register('positioned', (c, n, r) => SduiPositionedWidget(node: n, registry: r));
+    register('Positioned', (c, n, r) => SduiPositionedWidget(node: n, registry: r));
+
+    // ── Progress indicators ───────────────────────────────────────────────
+    register('circular_progress_indicator', (_, n, __) => SduiCircularProgressIndicatorWidget(node: n));
+    register('circularprogressindicator', (_, n, __) => SduiCircularProgressIndicatorWidget(node: n));
+    register('CircularProgressIndicator', (_, n, __) => SduiCircularProgressIndicatorWidget(node: n));
+    register('linear_progress_indicator', (_, n, __) => SduiLinearProgressIndicatorWidget(node: n));
+    register('linearprogressindicator', (_, n, __) => SduiLinearProgressIndicatorWidget(node: n));
+    register('LinearProgressIndicator', (_, n, __) => SduiLinearProgressIndicatorWidget(node: n));
+
+    // ── Form widgets ──────────────────────────────────────────────────────
+    register('checkbox', (_, n, __) => SduiCheckboxWidget(node: n));
+    register('Checkbox', (_, n, __) => SduiCheckboxWidget(node: n));
+    register('switch', (_, n, __) => SduiSwitchWidget(node: n));
+    register('switch_', (_, n, __) => SduiSwitchWidget(node: n));
+    register('Switch', (_, n, __) => SduiSwitchWidget(node: n));
+    register('slider', (_, n, __) => SduiSliderWidget(node: n));
+    register('Slider', (_, n, __) => SduiSliderWidget(node: n));
+    register('radio', (_, n, __) => SduiRadioWidget(node: n));
+    register('Radio', (_, n, __) => SduiRadioWidget(node: n));
+
+    // ── Decorative / display ──────────────────────────────────────────────
+    register('chip', (c, n, r) => SduiChipWidget(node: n, registry: r));
+    register('Chip', (c, n, r) => SduiChipWidget(node: n, registry: r));
+    register('badge', (c, n, r) => SduiBadgeWidget(node: n, registry: r));
+    register('Badge', (c, n, r) => SduiBadgeWidget(node: n, registry: r));
+    register('tooltip', (c, n, r) => SduiTooltipWidget(node: n, registry: r));
+    register('Tooltip', (c, n, r) => SduiTooltipWidget(node: n, registry: r));
+
+    // ── TextField (more configurable) ─────────────────────────────────────
+    register('text_field', (_, n, __) => SduiTextFieldWidget(node: n));
+    register('textfield', (_, n, __) => SduiTextFieldWidget(node: n));
+    register('TextField', (_, n, __) => SduiTextFieldWidget(node: n));
+    register('text_input', (_, n, __) => SduiTextFieldWidget(node: n));
 
     // ── Form ─────────────────────────────────────────────────────────────
     register('form', (c, n, r) => SduiFormWrapperWidget(node: n, registry: r));

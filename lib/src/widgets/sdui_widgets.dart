@@ -979,6 +979,463 @@ class _SduiTextFormFieldWidgetState extends State<SduiTextFormFieldWidget> {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+//  positioned
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiPositionedWidget extends StatelessWidget {
+  final SduiNode node;
+  final WidgetRegistry registry;
+  const SduiPositionedWidget({super.key, required this.node, required this.registry});
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: _parseDouble(node.prop('top')),
+      left: _parseDouble(node.prop('left')),
+      right: _parseDouble(node.prop('right')),
+      bottom: _parseDouble(node.prop('bottom')),
+      width: _parseDouble(node.prop('width')),
+      height: _parseDouble(node.prop('height')),
+      child: node.child != null ? registry.build(context, node.child!) : const SizedBox.shrink(),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  circular_progress_indicator
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiCircularProgressIndicatorWidget extends StatelessWidget {
+  final SduiNode node;
+  const SduiCircularProgressIndicatorWidget({super.key, required this.node});
+
+  @override
+  Widget build(BuildContext context) {
+    final value = _parseDouble(node.prop('value'));
+    final color = _parseColor(node.prop('color'));
+    final strokeWidth = _parseDouble(node.prop('strokeWidth')) ?? 4.0;
+    return CircularProgressIndicator(
+      value: value,
+      color: color,
+      strokeWidth: strokeWidth,
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  linear_progress_indicator
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiLinearProgressIndicatorWidget extends StatelessWidget {
+  final SduiNode node;
+  const SduiLinearProgressIndicatorWidget({super.key, required this.node});
+
+  @override
+  Widget build(BuildContext context) {
+    final value = _parseDouble(node.prop('value'));
+    final color = _parseColor(node.prop('color'));
+    final minHeight = _parseDouble(node.prop('minHeight'));
+    return LinearProgressIndicator(
+      value: value,
+      color: color,
+      minHeight: minHeight,
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  checkbox
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiCheckboxWidget extends StatefulWidget {
+  final SduiNode node;
+  const SduiCheckboxWidget({super.key, required this.node});
+
+  @override
+  State<SduiCheckboxWidget> createState() => _SduiCheckboxWidgetState();
+}
+
+class _SduiCheckboxWidgetState extends State<SduiCheckboxWidget> {
+  late bool _value;
+  String? get _id => widget.node.prop('id') as String?;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = (widget.node.prop('value') as bool?) ?? false;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final id = _id;
+    if (id != null) {
+      final form = SduiFormScope.of(context);
+      form?.registerField(id, []);
+      form?.setValue(id, _value);
+    }
+  }
+
+  void _onChanged(bool? next) {
+    if (next == null) return;
+    setState(() => _value = next);
+    final id = _id;
+    if (id != null) {
+      SduiFormScope.of(context)?.setValue(id, next);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(value: _value, onChanged: _onChanged);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  switch
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiSwitchWidget extends StatefulWidget {
+  final SduiNode node;
+  const SduiSwitchWidget({super.key, required this.node});
+
+  @override
+  State<SduiSwitchWidget> createState() => _SduiSwitchWidgetState();
+}
+
+class _SduiSwitchWidgetState extends State<SduiSwitchWidget> {
+  late bool _value;
+  String? get _id => widget.node.prop('id') as String?;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = (widget.node.prop('value') as bool?) ?? false;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final id = _id;
+    if (id != null) {
+      final form = SduiFormScope.of(context);
+      form?.registerField(id, []);
+      form?.setValue(id, _value);
+    }
+  }
+
+  void _onChanged(bool next) {
+    setState(() => _value = next);
+    final id = _id;
+    if (id != null) {
+      SduiFormScope.of(context)?.setValue(id, next);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Switch(value: _value, onChanged: _onChanged);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  slider
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiSliderWidget extends StatefulWidget {
+  final SduiNode node;
+  const SduiSliderWidget({super.key, required this.node});
+
+  @override
+  State<SduiSliderWidget> createState() => _SduiSliderWidgetState();
+}
+
+class _SduiSliderWidgetState extends State<SduiSliderWidget> {
+  late double _value;
+  String? get _id => widget.node.prop('id') as String?;
+
+  @override
+  void initState() {
+    super.initState();
+    final min = _parseDouble(widget.node.prop('min')) ?? 0.0;
+    _value = _parseDouble(widget.node.prop('value')) ?? min;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final id = _id;
+    if (id != null) {
+      final form = SduiFormScope.of(context);
+      form?.registerField(id, []);
+      form?.setValue(id, _value);
+    }
+  }
+
+  void _onChanged(double next) {
+    setState(() => _value = next);
+    final id = _id;
+    if (id != null) {
+      SduiFormScope.of(context)?.setValue(id, next);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final min = _parseDouble(widget.node.prop('min')) ?? 0.0;
+    final max = _parseDouble(widget.node.prop('max')) ?? 1.0;
+    final divisions = _parseInt(widget.node.prop('divisions'));
+    final label = widget.node.prop('label') as String?;
+    return Slider(
+      value: _value.clamp(min, max),
+      min: min,
+      max: max,
+      divisions: divisions,
+      label: label ?? _value.toStringAsFixed(1),
+      onChanged: _onChanged,
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  radio
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiRadioWidget extends StatefulWidget {
+  final SduiNode node;
+  const SduiRadioWidget({super.key, required this.node});
+
+  @override
+  State<SduiRadioWidget> createState() => _SduiRadioWidgetState();
+}
+
+class _SduiRadioWidgetState extends State<SduiRadioWidget> {
+  late String? _groupValue;
+  String? get _name => widget.node.prop('name') as String?;
+  String? get _id => widget.node.prop('id') as String? ?? _name;
+
+  @override
+  void initState() {
+    super.initState();
+    _groupValue = widget.node.prop('groupValue') as String?;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final id = _id;
+    if (id != null) {
+      final form = SduiFormScope.of(context);
+      form?.registerField(id, []);
+      if (_groupValue != null) form?.setValue(id, _groupValue);
+    }
+  }
+
+  void _onChanged(String? next) {
+    setState(() => _groupValue = next);
+    final id = _id;
+    if (id != null) {
+      SduiFormScope.of(context)?.setValue(id, next);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final value = widget.node.prop('value') as String? ?? '';
+    // Use RadioGroup to avoid deprecated groupValue/onChanged on Radio directly.
+    return RadioGroup<String>(
+      groupValue: _groupValue,
+      onChanged: _onChanged,
+      child: Radio<String>(value: value),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  chip
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiChipWidget extends StatelessWidget {
+  final SduiNode node;
+  final WidgetRegistry registry;
+  const SduiChipWidget({super.key, required this.node, required this.registry});
+
+  @override
+  Widget build(BuildContext context) {
+    final labelText = (node.prop('label') ?? node.data ?? '') as String;
+    final bgColor = _parseColor(node.prop('backgroundColor'));
+
+    Widget? avatarWidget;
+    final avatarNode = node.prop('avatar');
+    if (avatarNode is Map<String, dynamic>) {
+      avatarWidget = registry.build(context, SduiNode.fromJson(avatarNode));
+    }
+
+    return Chip(
+      label: Text(labelText),
+      avatar: avatarWidget,
+      backgroundColor: bgColor,
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  badge
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiBadgeWidget extends StatelessWidget {
+  final SduiNode node;
+  final WidgetRegistry registry;
+  const SduiBadgeWidget({super.key, required this.node, required this.registry});
+
+  @override
+  Widget build(BuildContext context) {
+    final label = (node.prop('label') ?? node.data ?? '') as String;
+    final bgColor = _parseColor(node.prop('backgroundColor'));
+    final textColor = _parseColor(node.prop('textColor'));
+
+    Widget child = node.child != null
+        ? registry.build(context, node.child!)
+        : const SizedBox.shrink();
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        child,
+        Positioned(
+          top: -6,
+          right: -6,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+            decoration: BoxDecoration(
+              color: bgColor ?? const Color(0xFFF44336),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+            child: Text(
+              label,
+              style: TextStyle(
+                color: textColor ?? const Color(0xFFFFFFFF),
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  text_field (configurable, non-form)
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiTextFieldWidget extends StatefulWidget {
+  final SduiNode node;
+  const SduiTextFieldWidget({super.key, required this.node});
+
+  @override
+  State<SduiTextFieldWidget> createState() => _SduiTextFieldWidgetState();
+}
+
+class _SduiTextFieldWidgetState extends State<SduiTextFieldWidget> {
+  late final TextEditingController _ctrl;
+  String? get _id => widget.node.prop('id') as String?;
+
+  @override
+  void initState() {
+    super.initState();
+    final initial = widget.node.prop('initialValue') as String?
+        ?? widget.node.prop('value') as String?
+        ?? '';
+    _ctrl = TextEditingController(text: initial);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final id = _id;
+    if (id != null) {
+      final form = SduiFormScope.of(context);
+      if (form != null) {
+        final rawRules = widget.node.prop('validatorRules');
+        final rules = rawRules is List ? rawRules : <dynamic>[];
+        form.registerField(id, buildValidators(rules));
+        form.setValue(id, _ctrl.text);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    final id = _id;
+    if (id != null) {
+      SduiFormScope.maybeOf(context)?.unregisterField(id);
+    }
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final id = _id;
+    final form = id != null ? SduiFormScope.of(context) : null;
+    final errorText = form?.errors[id];
+
+    final hint = widget.node.prop('hintText') as String?
+        ?? widget.node.prop('hint') as String?;
+    final label = widget.node.prop('label') as String?
+        ?? widget.node.prop('labelText') as String?;
+    final obscure = widget.node.prop('obscureText') == true;
+    final maxLines = _parseInt(widget.node.prop('maxLines')) ?? (obscure ? 1 : null);
+    final keyboardType = switch (widget.node.prop('keyboardType') as String?) {
+      'emailAddress' => TextInputType.emailAddress,
+      'number' => TextInputType.number,
+      'phone' => TextInputType.phone,
+      'url' => TextInputType.url,
+      'multiline' => TextInputType.multiline,
+      _ => TextInputType.text,
+    };
+
+    return TextField(
+      controller: _ctrl,
+      obscureText: obscure,
+      maxLines: maxLines,
+      keyboardType: keyboardType,
+      onChanged: (v) {
+        if (id != null) form?.setValue(id, v);
+      },
+      decoration: InputDecoration(
+        hintText: hint,
+        labelText: label,
+        errorText: errorText,
+      ),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  tooltip
+// ═══════════════════════════════════════════════════════════════════════════
+
+class SduiTooltipWidget extends StatelessWidget {
+  final SduiNode node;
+  final WidgetRegistry registry;
+  const SduiTooltipWidget({super.key, required this.node, required this.registry});
+
+  @override
+  Widget build(BuildContext context) {
+    final message = (node.prop('message') ?? node.data ?? '') as String;
+    return Tooltip(
+      message: message,
+      child: node.child != null ? registry.build(context, node.child!) : const SizedBox.shrink(),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 //  Unknown / fallback
 // ═══════════════════════════════════════════════════════════════════════════
 
