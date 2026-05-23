@@ -1544,6 +1544,162 @@ class _SduiCarouselWidgetState extends State<SduiCarouselWidget> {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+//  CT-G: entry-animation wrapper
+// ═══════════════════════════════════════════════════════════════════════════
+
+/// Wraps any widget in an entry animation driven by the node's
+/// `animation: {type, duration, delay, repeat}` prop.
+///
+/// Supported types: fade_in, fade_slide_up, fade_slide_down,
+/// fade_slide_left, fade_slide_right, scale_in, pulse.
+class SduiAnimatedWrapper extends StatefulWidget {
+  final SduiNode node;
+  final Widget child;
+  const SduiAnimatedWrapper({super.key, required this.node, required this.child});
+
+  @override
+  State<SduiAnimatedWrapper> createState() => _SduiAnimatedWrapperState();
+}
+
+class _SduiAnimatedWrapperState extends State<SduiAnimatedWrapper>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _opacity;
+  // We keep a plain Offset value rather than an Animation<Offset> to avoid
+  // SlideTransition's fractional-size semantics — we drive pixel offsets via
+  // Transform.translate in build().
+  Offset _beginOffset = Offset.zero;
+  late Animation<double> _scale;
+  String _type = 'fade_in';
+  bool _repeat = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final spec = widget.node.prop('animation');
+    if (spec is! Map) {
+      // No valid spec — build trivial no-op animations.
+      _controller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 1),
+      );
+      _opacity = const AlwaysStoppedAnimation<double>(1.0);
+      _scale = const AlwaysStoppedAnimation<double>(1.0);
+      _controller.forward();
+      return;
+    }
+
+    _type = (spec['type'] as String?) ?? 'fade_in';
+    final duration = (spec['duration'] as num?)?.toInt() ?? 600;
+    final delay = (spec['delay'] as num?)?.toInt() ?? 0;
+    _repeat = spec['repeat'] == true;
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: duration),
+    );
+
+    final curve = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
+
+    switch (_type) {
+      case 'fade_slide_up':
+        _opacity = Tween<double>(begin: 0, end: 1).animate(curve);
+        _beginOffset = const Offset(0, 24);
+        _scale = const AlwaysStoppedAnimation<double>(1.0);
+        break;
+      case 'fade_slide_down':
+        _opacity = Tween<double>(begin: 0, end: 1).animate(curve);
+        _beginOffset = const Offset(0, -24);
+        _scale = const AlwaysStoppedAnimation<double>(1.0);
+        break;
+      case 'fade_slide_left':
+        _opacity = Tween<double>(begin: 0, end: 1).animate(curve);
+        _beginOffset = const Offset(24, 0);
+        _scale = const AlwaysStoppedAnimation<double>(1.0);
+        break;
+      case 'fade_slide_right':
+        _opacity = Tween<double>(begin: 0, end: 1).animate(curve);
+        _beginOffset = const Offset(-24, 0);
+        _scale = const AlwaysStoppedAnimation<double>(1.0);
+        break;
+      case 'scale_in':
+        _opacity = Tween<double>(begin: 0, end: 1).animate(curve);
+        _scale = Tween<double>(begin: 0.85, end: 1).animate(curve);
+        break;
+      case 'pulse':
+        _opacity = const AlwaysStoppedAnimation<double>(1.0);
+        _scale = TweenSequence<double>([
+          TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.05), weight: 50),
+          TweenSequenceItem(tween: Tween(begin: 1.05, end: 1.0), weight: 50),
+        ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+        break;
+      case 'fade_in':
+      default:
+        _opacity = Tween<double>(begin: 0, end: 1).animate(curve);
+        _scale = const AlwaysStoppedAnimation<double>(1.0);
+    }
+
+    if (delay <= 0) {
+      // No delay — start immediately after first frame to avoid pending-timer
+      // assertion in widget tests.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        if (_repeat) {
+          _controller.repeat();
+        } else {
+          _controller.forward();
+        }
+      });
+    } else {
+      Future.delayed(Duration(milliseconds: delay), () {
+        if (!mounted) return;
+        if (_repeat) {
+          _controller.repeat();
+        } else {
+          _controller.forward();
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // For slide types we interpolate the offset using the controller value.
+    final bool hasSlide = _beginOffset != Offset.zero;
+
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (_, __) {
+        Offset currentOffset = Offset.zero;
+        if (hasSlide) {
+          final t = _controller.value;
+          currentOffset = Offset(
+            _beginOffset.dx * (1 - t),
+            _beginOffset.dy * (1 - t),
+          );
+        }
+        return Opacity(
+          opacity: _opacity.value,
+          child: Transform.translate(
+            offset: currentOffset,
+            child: Transform.scale(
+              scale: _scale.value,
+              child: widget.child,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 //  Unknown / fallback
 // ═══════════════════════════════════════════════════════════════════════════
 

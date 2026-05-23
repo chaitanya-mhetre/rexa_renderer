@@ -43,3 +43,6 @@ export 'src/parser/sdui_parser.dart';
 export 'src/registry/widget_registry.dart';
 export 'src/theme/sdui_theme.dart';
 export 'src/network/sdui_network_service.dart' show SduiNetworkService;
+
+// Animation wrapper (CT-G)
+export 'src/widgets/sdui_widgets.dart' show SduiAnimatedWrapper;

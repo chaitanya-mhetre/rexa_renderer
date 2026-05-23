@@ -165,11 +165,18 @@ class WidgetRegistry {
 
   /// Build a Flutter [Widget] from a [SduiNode].
   /// Falls back to [SduiUnknownWidget] for unregistered types.
+  /// When the node carries an `animation` prop the result is automatically
+  /// wrapped in [SduiAnimatedWrapper] (CT-G entry animations).
   Widget build(BuildContext context, SduiNode node) {
     final builder = _builders[node.type];
-    if (builder == null) {
-      return SduiUnknownWidget(type: node.type);
+    final widget = builder != null
+        ? builder(context, node, this)
+        : SduiUnknownWidget(type: node.type);
+
+    // CT-G: wrap in entry-animation if spec is present.
+    if (node.prop('animation') is Map) {
+      return SduiAnimatedWrapper(node: node, child: widget);
     }
-    return builder(context, node, this);
+    return widget;
   }
 }
