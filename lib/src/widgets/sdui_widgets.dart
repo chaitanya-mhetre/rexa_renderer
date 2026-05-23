@@ -427,6 +427,18 @@ class SduiButtonWidget extends StatelessWidget {
   const SduiButtonWidget({super.key, required this.node, required this.registry});
 
   void _handleTap() {
+    // Prefer onPressed action map (e.g. {"actionType": "addToCart", ...})
+    final onPressed = node.prop('onPressed');
+    if (onPressed is Map<String, dynamic> && onPressed['actionType'] is String) {
+      // Fire through the registry so Sdui.dispatch is invoked when wired up
+      // (SduiScreen wires registry.onAction → Sdui.dispatch).
+      final actionType = onPressed['actionType'] as String;
+      final params = Map<String, dynamic>.from(onPressed)
+        ..remove('actionType');
+      registry.fireAction(actionType, params);
+      return;
+    }
+    // Legacy: string action + optional params
     final action = node.prop('action') as String?;
     if (action != null) {
       final params = <String, dynamic>{

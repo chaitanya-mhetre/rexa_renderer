@@ -77,10 +77,15 @@ class WidgetRegistry {
     // ── Input ───────────────────────────────────────────────────────────
     register('button', (c, n, r) => SduiButtonWidget(node: n, registry: r));
     register('elevated_button', (c, n, r) => SduiButtonWidget(node: n, registry: r));
+    register('elevatedbutton', (c, n, r) => SduiButtonWidget(node: n, registry: r));
     register('text_button', (c, n, r) => SduiButtonWidget(node: n, registry: r));
+    register('textbutton', (c, n, r) => SduiButtonWidget(node: n, registry: r));
     register('outlined_button', (c, n, r) => SduiButtonWidget(node: n, registry: r));
+    register('outlinedbutton', (c, n, r) => SduiButtonWidget(node: n, registry: r));
     register('icon_button', (c, n, r) => SduiButtonWidget(node: n, registry: r));
+    register('iconbutton', (c, n, r) => SduiButtonWidget(node: n, registry: r));
     register('floating_action_button', (c, n, r) => SduiButtonWidget(node: n, registry: r));
+    register('floatingactionbutton', (c, n, r) => SduiButtonWidget(node: n, registry: r));
 
     // ── Scroll / Lists ───────────────────────────────────────────────────
     register('single_child_scroll_view', (c, n, r) => SduiScrollViewWidget(node: n, registry: r));

@@ -1,0 +1,13 @@
+{
+  "layout": {
+    "type": "container",
+    "padding": 16,
+    "color": "#6366F1",
+    "child": {
+      "type": "text",
+      "data": "Welcome back, {{user.name}}!",
+      "style": {"fontSize": 20, "color": "#FFFFFF", "fontWeight": "bold"}
+    }
+  },
+  "version": 1
+}

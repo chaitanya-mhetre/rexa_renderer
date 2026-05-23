@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'actions/sdui_action.dart';
 import 'cache/sdui_cache_strategy.dart';
 import 'cache/sdui_cache_service.dart';
 import 'context/sdui_context_store.dart';
@@ -240,7 +241,16 @@ class _SduiScreenState extends State<SduiScreen> {
   Widget _buildFromJson(BuildContext context, Map<String, dynamic> json) {
     try {
       final node = SduiParser.parseMap(json);
-      final registry = WidgetRegistry.defaults();
+      // Wire registry action callbacks to Sdui.dispatch so custom-registered
+      // action handlers (e.g. addToCart) are invoked when buttons fire.
+      final registry = WidgetRegistry.defaults(
+        onAction: (actionType, params) {
+          Sdui.dispatch(
+            context,
+            SduiAction(actionType: actionType, props: params),
+          );
+        },
+      );
       return registry.build(context, node);
     } catch (e, s) {
       return widget.errorBuilder?.call(

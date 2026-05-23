@@ -1,0 +1,14 @@
+{
+  "layout": {
+    "type": "row",
+    "children": [
+      {"type": "text", "data": "Cart ({{cart.itemCount}})"},
+      {
+        "type": "elevated_button",
+        "child": {"type": "text", "data": "Add"},
+        "onPressed": {"actionType": "addToCart", "productId": "p1"}
+      }
+    ]
+  },
+  "version": 1
+}
