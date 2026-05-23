@@ -12,6 +12,7 @@ import 'actions/handlers/set_value_handler.dart';
 import 'actions/handlers/multi_action_handler.dart';
 import 'actions/handlers/delay_handler.dart';
 import 'actions/handlers/none_handler.dart';
+import 'actions/handlers/network_request_handler.dart';
 import 'cache/sdui_cache_service.dart';
 import 'cache/sdui_cache_strategy.dart';
 import 'context/sdui_context_store.dart';
@@ -53,6 +54,7 @@ class Sdui {
     _registry.register('multiAction', makeMultiActionHandler(_registry));
     _registry.register('delay', delayHandler);
     _registry.register('none', noneHandler);
+    _registry.register('networkRequest', makeNetworkRequestHandler(_registry));
 
     if (onAnyAction != null) _registry.onAnyAction(onAnyAction);
     _initialized = true;
