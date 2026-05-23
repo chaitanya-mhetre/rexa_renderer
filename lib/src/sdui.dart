@@ -8,6 +8,7 @@ import 'actions/sdui_action_registry.dart';
 import 'actions/handlers/navigate_handler.dart';
 import 'actions/handlers/snackbar_handler.dart';
 import 'actions/handlers/dialog_handler.dart';
+import 'actions/handlers/modal_bottom_sheet_handler.dart';
 import 'actions/handlers/set_value_handler.dart';
 import 'actions/handlers/multi_action_handler.dart';
 import 'actions/handlers/delay_handler.dart';
@@ -52,6 +53,7 @@ class Sdui {
     _registry.register('navigate', navigateHandler);
     _registry.register('snackBar', snackBarHandler);
     _registry.register('dialog', dialogHandler);
+    _registry.register('showModalBottomSheet', modalBottomSheetHandler);
     _registry.register('setValue', makeSetValueHandler(_contextStore, _registry));
     _registry.register('multiAction', makeMultiActionHandler(_registry));
     _registry.register('delay', delayHandler);
